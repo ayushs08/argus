@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Argus</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="helperText">Click on the button to add contacts. \n You can add up to 4 contacts.</string>
+</resources>
