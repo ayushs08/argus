@@ -35,7 +35,8 @@ import static android.app.Activity.RESULT_OK;
 public class TabContacts extends Fragment {
 
     final int pickerResult = 2015;
-    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 2, MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 2, MY_PERMISSIONS_REQUEST_STATE_AND_SMS = 0;
+    private static final String[] PERMISSIONS_STATE_AND_SMS = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.SEND_SMS};
     ListView listView;
     ArrayList<Contacts> contactsList = new ArrayList<>();
     ContactsAdapter contactsAdapter;
@@ -133,33 +134,35 @@ public class TabContacts extends Fragment {
     }
 
     protected void sendSMSMessage() {
-        if (ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.SEND_SMS)) {
-                requestPermissions(new String[]{Manifest.permission.SEND_SMS},
-                        MY_PERMISSIONS_REQUEST_SEND_SMS);
-            } else {
-               requestPermissions(new String[]{Manifest.permission.SEND_SMS},
-                        MY_PERMISSIONS_REQUEST_SEND_SMS);
+
+        for (String permission : PERMISSIONS_STATE_AND_SMS) {
+            if (ContextCompat.checkSelfPermission(getContext(),
+                    permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                        permission)) {
+                    requestPermissions(PERMISSIONS_STATE_AND_SMS,
+                            MY_PERMISSIONS_REQUEST_STATE_AND_SMS);
+                } else {
+                    requestPermissions(PERMISSIONS_STATE_AND_SMS,
+                            MY_PERMISSIONS_REQUEST_STATE_AND_SMS);
+                }
             }
-        }
-        else {
-            SmsManager smsManager = android.telephony.SmsManager.getDefault();
-            for (int i = 0; i < contactsList.size(); i++) {
-                smsManager.sendTextMessage(contactsList.get(i).getContactPhone(), null,
-                        "Experimental message", null, null);
-                Toast.makeText(getContext(), "Sending message to: " + contactsList.get(i).getContactName(), Toast.LENGTH_SHORT).show();
+            else {
+                SmsManager smsManager = android.telephony.SmsManager.getDefault();
+                for (int i = 0; i < contactsList.size(); i++) {
+                    smsManager.sendTextMessage(contactsList.get(i).getContactPhone(), null,
+                            "Experimental message", null, null);
+                    Toast.makeText(getContext(), "Sending message to: " + contactsList.get(i).getContactName(), Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_SEND_SMS: {
+            case MY_PERMISSIONS_REQUEST_STATE_AND_SMS: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     SmsManager smsManager = android.telephony.SmsManager.getDefault();
@@ -170,7 +173,13 @@ public class TabContacts extends Fragment {
                     }
 
                 } else {
-                    Toast.makeText(getContext(), "Enable SMS permission to send SMS", Toast.LENGTH_LONG).show();
+                    for (String permissionTest: permissions) {
+                        if (ContextCompat.checkSelfPermission(getContext(),
+                                permissionTest)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(getContext(), "Enable " + permissionTest + " to send SMS", Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
                 return;
             }
@@ -182,7 +191,7 @@ public class TabContacts extends Fragment {
                     startActivityForResult(pickContact, pickerResult);
 
                 } else {
-                    Toast.makeText(getContext(), "Enable contacts permission to add contacts", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Enable " + permissions[0] + " to add contacts", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
