@@ -146,7 +146,12 @@ public class TabContacts extends Fragment {
             }
         }
         else {
-            Toast.makeText(getContext(), "SMS SENT", Toast.LENGTH_SHORT).show();
+            SmsManager smsManager = android.telephony.SmsManager.getDefault();
+            for (int i = 0; i < contactsList.size(); i++) {
+                smsManager.sendTextMessage(contactsList.get(i).getContactPhone(), null,
+                        "Experimental message", null, null);
+                Toast.makeText(getContext(), "Sending message to: " + contactsList.get(i).getContactName(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -157,7 +162,12 @@ public class TabContacts extends Fragment {
             case MY_PERMISSIONS_REQUEST_SEND_SMS: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(), "SMS SENT", Toast.LENGTH_SHORT).show();
+                    SmsManager smsManager = android.telephony.SmsManager.getDefault();
+                    for (int i = 0; i < contactsList.size(); i++) {
+                        smsManager.sendTextMessage(contactsList.get(i).getContactPhone(), null,
+                                "Experimental message", null, null);
+                        Toast.makeText(getContext(), "Sending message to: " + contactsList.get(i).getContactName(), Toast.LENGTH_SHORT).show();
+                    }
 
                 } else {
                     Toast.makeText(getContext(), "Enable SMS permission to send SMS", Toast.LENGTH_LONG).show();
