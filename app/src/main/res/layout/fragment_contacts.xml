@@ -18,16 +18,32 @@
         android:id="@+id/helperText"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/add_user_m"
+        android:src="@drawable/add_user_icon"
+        app:backgroundTint="@color/colorAccent"
+        app:rippleColor="#FBC02D" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabSms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fabAdd"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sms_icon"
         app:backgroundTint="@color/colorAccent"
         app:rippleColor="#FBC02D" />
 
