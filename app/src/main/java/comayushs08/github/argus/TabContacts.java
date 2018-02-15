@@ -119,6 +119,8 @@ public class TabContacts extends Fragment {
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.READ_CONTACTS)) {
+                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
             } else {
                 requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
                         MY_PERMISSIONS_REQUEST_READ_CONTACTS);
@@ -131,16 +133,20 @@ public class TabContacts extends Fragment {
     }
 
     protected void sendSMSMessage() {
-
         if (ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.SEND_SMS)
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.SEND_SMS)) {
+                requestPermissions(new String[]{Manifest.permission.SEND_SMS},
+                        MY_PERMISSIONS_REQUEST_SEND_SMS);
             } else {
                requestPermissions(new String[]{Manifest.permission.SEND_SMS},
                         MY_PERMISSIONS_REQUEST_SEND_SMS);
             }
+        }
+        else {
+            Toast.makeText(getContext(), "SMS SENT", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -151,25 +157,22 @@ public class TabContacts extends Fragment {
             case MY_PERMISSIONS_REQUEST_SEND_SMS: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage("7738348585", null, "CHECK CHECK", null, null);
-                    Toast.makeText(getContext(), "SMS sent.",
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "SMS SENT", Toast.LENGTH_SHORT).show();
+
                 } else {
-                    Toast.makeText(getContext(),
-                            "SMS faild, please try again.", Toast.LENGTH_LONG).show();
-                    return;
+                    Toast.makeText(getContext(), "Enable SMS permission to send SMS", Toast.LENGTH_LONG).show();
                 }
+                return;
             }
+
             case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
                     startActivityForResult(pickContact, pickerResult);
 
                 } else {
-                    Toast.makeText(getContext(), "PERMISSION DENIED", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Enable contacts permission to add contacts", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
