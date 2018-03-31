@@ -1,15 +1,20 @@
 package comayushs08.github.argus;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -31,12 +36,16 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.LOCATION_SERVICE;
 
 public class TabContacts extends Fragment {
 
     final int pickerResult = 2015;
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 2, MY_PERMISSIONS_REQUEST_STATE_AND_SMS = 0;
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 2, MY_PERMISSIONS_REQUEST_STATE_AND_SMS = 0, MY_PERMISSIONS_REQUEST_LOCATION = 4;
     private static final String[] PERMISSIONS_STATE_AND_SMS = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.SEND_SMS};
+    private static final String[] PERMISSIONS_LOCATION = {Manifest.permission.INTERNET, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+    private LocationManager locationManager;
+    private LocationListener locationListener;
     ListView listView;
     ArrayList<Contacts> contactsList = new ArrayList<>();
     ContactsAdapter contactsAdapter;
@@ -73,24 +82,28 @@ public class TabContacts extends Fragment {
 
         listView.setAdapter(contactsAdapter);
 
+
+
+        getLocationPermission();
+
         return rootView;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == pickerResult && resultCode == RESULT_OK) {
-                Uri contactUri = data.getData();
-                Cursor cursor = getContext().getContentResolver().query(contactUri, null, null, null, null);
-                cursor.moveToFirst();
-                int nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-                int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                String name = cursor.getString(nameIndex);
-                String phone = cursor.getString(phoneIndex);
-                contactsList.add(new Contacts(name, phone));
-                contactsAdapter.notifyDataSetChanged();
-                hideHelper();
-                hideFab();
+            Uri contactUri = data.getData();
+            Cursor cursor = getContext().getContentResolver().query(contactUri, null, null, null, null);
+            cursor.moveToFirst();
+            int nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+            int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            String name = cursor.getString(nameIndex);
+            String phone = cursor.getString(phoneIndex);
+            contactsList.add(new Contacts(name, phone));
+            contactsAdapter.notifyDataSetChanged();
+            hideHelper();
+            hideFab();
         }
 
     }
@@ -109,7 +122,7 @@ public class TabContacts extends Fragment {
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
             float dp = getActivity().getResources().getDisplayMetrics().density;
-            params.setMargins(0, 0, (int)(24*dp), (int)(24*dp));
+            params.setMargins(0, 0, (int) (24 * dp), (int) (24 * dp));
             fabSms.setLayoutParams(params);
         }
     }
@@ -126,11 +139,54 @@ public class TabContacts extends Fragment {
                 requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
                         MY_PERMISSIONS_REQUEST_READ_CONTACTS);
             }
-        }
-        else {
+        } else {
             Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
             startActivityForResult(pickContact, pickerResult);
         }
+    }
+
+    protected void getLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+                requestPermissions(PERMISSIONS_LOCATION,
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            } else {
+                requestPermissions(PERMISSIONS_LOCATION,
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    protected void startLocationAccess() {
+
+        locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        };
+
+        locationManager.requestLocationUpdates("gps", 500, 0, locationListener);
     }
 
     protected void sendSMSMessage() {
@@ -158,6 +214,7 @@ public class TabContacts extends Fragment {
             }
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
@@ -194,6 +251,13 @@ public class TabContacts extends Fragment {
                     Toast.makeText(getContext(), "Enable " + permissions[0] + " to add contacts", Toast.LENGTH_LONG).show();
                 }
                 return;
+            }
+
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startLocationAccess();
+                }
             }
         }
     }
