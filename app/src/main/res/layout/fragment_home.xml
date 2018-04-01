@@ -6,11 +6,13 @@
     tools:context="comayushs08.github.argus.TabHome">
 
     <TextView
+        android:id="@+id/homeHelperText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="300dp"
         android:text="Home"
         android:layout_centerInParent="true"
         android:textSize="20sp"
-        android:textColor="#fff" />
+        android:textColor="#e43" />
 
 </RelativeLayout>
