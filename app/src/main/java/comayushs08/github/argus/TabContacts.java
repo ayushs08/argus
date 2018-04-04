@@ -51,6 +51,8 @@ public class TabContacts extends Fragment {
     FloatingActionButton fabAdd, fabSms;
     TextView helperText;
 
+    MainActivity mainActivity = new MainActivity();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -158,7 +160,7 @@ public class TabContacts extends Fragment {
                 SmsManager smsManager = android.telephony.SmsManager.getDefault();
                 for (int i = 0; i < contactsList.size(); i++) {
                     smsManager.sendTextMessage(contactsList.get(i).getContactPhone(), null,
-                            "Experimental message", null, null);
+                             "http://maps.google.com/?q=" + mainActivity.getCoordinates(), null, null);
                     Toast.makeText(getContext(), "Sending message to: " + contactsList.get(i).getContactName(), Toast.LENGTH_SHORT).show();
                 }
             }

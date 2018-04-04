@@ -2,40 +2,23 @@ package comayushs08.github.argus;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Fragment;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Looper;
-import android.provider.ContactsContract;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telephony.SmsManager;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -45,13 +28,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String[] PERMISSIONS_LOCATION = {Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private Geocoder geocoder;
+    private static String geoLocation = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +153,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onLocationChanged(Location location) {
+
+        geoLocation = geoLocation + location.getLatitude() + ", " + location.getLongitude();
+
         String msg = "Lat: " +
                 Double.toString(location.getLatitude()) + "\n\nLong: " +
                 Double.toString(location.getLongitude());
@@ -191,5 +176,9 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = findViewById(R.id.homeHelperText);
         textView.setText(msg);
+    }
+
+    protected String getCoordinates() {
+        return geoLocation;
     }
 }
