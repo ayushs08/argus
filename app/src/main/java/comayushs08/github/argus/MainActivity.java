@@ -154,13 +154,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void onLocationChanged(Location location) {
 
-        geoLocation = geoLocation + location.getLatitude() + ", " + location.getLongitude();
+        geoLocation = "";
+
+        geoLocation += location.getLatitude() + "," + location.getLongitude();
 
         String msg = "Lat: " +
                 Double.toString(location.getLatitude()) + "\n\nLong: " +
                 Double.toString(location.getLongitude());
 
-        Toast.makeText(this, "update", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show();
 
         List<Address> address;
 
@@ -172,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IllegalArgumentException illegalArgumentException) {
             Toast.makeText(this, "Invalid Address", Toast.LENGTH_SHORT).show();
         }
-//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
         TextView textView = findViewById(R.id.homeHelperText);
         textView.setText(msg);
