@@ -10,9 +10,11 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Looper;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         mfusedLocationClient = getFusedLocationProviderClient(this);
         geocoder = new Geocoder(this, Locale.getDefault());
+
         getLocationPermission();
 
     }
@@ -181,5 +184,20 @@ public class MainActivity extends AppCompatActivity {
 
     protected String getCoordinates() {
         return geoLocation;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startLocationUpdates();
+                } else {
+                    Toast.makeText(this, "Please Turn On Location Service", Toast.LENGTH_SHORT).show();
+                    }
+            }
+        }
+        return;
     }
 }
