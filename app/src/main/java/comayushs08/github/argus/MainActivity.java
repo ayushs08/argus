@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient mfusedLocationClient;
     private LocationRequest mLocationRequest;
-    private long UPDATE_INTERVAL = 1 * 100;
-    private long FASTEST_INTERVAL = 200;
+//    private long UPDATE_INTERVAL = 1 * 100;
+//    private long FASTEST_INTERVAL = 1 * 1000;
     private static final int locationRequestResult = 2018;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 4;
     private static final String[] PERMISSIONS_LOCATION = {Manifest.permission.INTERNET,
@@ -109,8 +109,9 @@ public class MainActivity extends AppCompatActivity {
         // Create the location request to start receiving updates
         mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setInterval(1);
+        mLocationRequest.setFastestInterval(1);
+        mLocationRequest.setSmallestDisplacement(0);
 
         // Create LocationSettingsRequest object using location request
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 Double.toString(location.getLatitude()) + "\n\nLong: " +
                 Double.toString(location.getLongitude());
 
-        Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Update", Toast.LENGTH_SHORT).show();
 
         List<Address> address;
 
@@ -178,8 +179,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Invalid Address", Toast.LENGTH_SHORT).show();
         }
 
-        TextView textView = findViewById(R.id.homeHelperText);
-        textView.setText(msg);
+//        TextView textView = findViewById(R.id.homeHelperText);
+//        textView.setText(msg);
+
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     protected String getCoordinates() {

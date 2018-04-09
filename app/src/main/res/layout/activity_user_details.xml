@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserDetails"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                android:background="@color/colorPrimaryDark">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="@string/app_name"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="30sp"
+                    android:padding="20sp"/>
+
+            </android.support.v7.widget.Toolbar>
+
+
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Name"
+                android:inputType="textPersonName"
+                android:textColorHint="#bdc3c7"
+                android:theme="@style/EditTextTheme"
+                android:textColor="@color/colorAccent"/>
+
+            <EditText
+                android:id="@+id/userBloodGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Blood Group"
+                android:inputType="textPersonName"
+                android:textColorHint="#bdc3c7"
+                android:theme="@style/EditTextTheme"
+                android:textColor="@color/colorAccent"/>
+
+            <EditText
+                android:id="@+id/userConditions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Medical Conditions"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:textColorHint="#bdc3c7"
+                android:theme="@style/EditTextTheme"
+                android:textColor="@color/colorAccent"/>
+
+            <EditText
+                android:id="@+id/userMedications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="On-going medications"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:textColorHint="#bdc3c7"
+                android:theme="@style/EditTextTheme"
+                android:textColor="@color/colorAccent"/>
+
+            <EditText
+                android:id="@+id/userAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Address"
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:textColorHint="#bdc3c7"
+                android:theme="@style/EditTextTheme"
+                android:textColor="@color/colorAccent"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabStoreDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginRight="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/arrow_right_icon"
+        app:backgroundTint="@color/colorAccent"
+        app:rippleColor="#FBC02D" />
+
+</RelativeLayout>
