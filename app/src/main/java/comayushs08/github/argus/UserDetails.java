@@ -3,6 +3,7 @@ package comayushs08.github.argus;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,42 +18,56 @@ public class UserDetails extends AppCompatActivity {
     EditText etUserName, etUserBloodGroup, etUserAddress, etUserConditions, etUserMedication;
     private String userName, userBloodGroup, userAddress, userConditions, userMedication;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    boolean firstTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
 
-        etUserName = findViewById(R.id.userName);
-        etUserBloodGroup = findViewById(R.id.userBloodGroup);
-        etUserConditions = findViewById(R.id.userConditions);
-        etUserMedication = findViewById(R.id.userMedications);
-        etUserAddress = findViewById(R.id.userAddress);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        firstTime = sharedPreferences.getBoolean("firstTime", true);
 
-        userName = etUserName.getText().toString();
-        userBloodGroup = etUserBloodGroup.getText().toString();
-        userConditions = etUserConditions.getText().toString();
-        userMedication = etUserMedication.getText().toString();
-        userAddress = etUserAddress.getText().toString();
+        if(firstTime) {
+            etUserName = findViewById(R.id.userName);
+            etUserBloodGroup = findViewById(R.id.userBloodGroup);
+            etUserConditions = findViewById(R.id.userConditions);
+            etUserMedication = findViewById(R.id.userMedications);
+            etUserAddress = findViewById(R.id.userAddress);
 
-        fabStoreDetails = findViewById(R.id.fabStoreDetails);
+            userName = etUserName.getText().toString();
+            userBloodGroup = etUserBloodGroup.getText().toString();
+            userConditions = etUserConditions.getText().toString();
+            userMedication = etUserMedication.getText().toString();
+            userAddress = etUserAddress.getText().toString();
 
-        fabStoreDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("userName", userName);
-                editor.putString("userBloodGroup", userBloodGroup);
-                editor.putString("userConditions", userConditions);
-                editor.putString("userMedication", userMedication);
-                editor.putString("userAddress", userAddress);
-                editor.apply();
-                Toast.makeText(UserDetails.this, "Saved", Toast.LENGTH_SHORT).show();
+            fabStoreDetails = findViewById(R.id.fabStoreDetails);
 
-                Intent intent = new Intent(UserDetails.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+            fabStoreDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    editor = sharedPreferences.edit();
+                    editor.putString("userName", userName);
+                    editor.putString("userBloodGroup", userBloodGroup);
+                    editor.putString("userConditions", userConditions);
+                    editor.putString("userMedication", userMedication);
+                    editor.putString("userAddress", userAddress);
+                    editor.putBoolean("firstTime", false);
+                    editor.commit();
+
+
+                    Toast.makeText(UserDetails.this, "Saved", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(UserDetails.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            Intent intent = new Intent(UserDetails.this, MainActivity.class);
+            startActivity(intent);
+        }
 
     }
 }

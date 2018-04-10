@@ -179,9 +179,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Invalid Address", Toast.LENGTH_SHORT).show();
         }
 
-//        TextView textView = findViewById(R.id.homeHelperText);
-//        textView.setText(msg);
-
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 

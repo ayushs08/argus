@@ -2,17 +2,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     tools:context="comayushs08.github.argus.TabHome">
 
-    <TextView
-        android:id="@+id/homeHelperText"
+    <!--<TextView-->
+        <!--android:id="@+id/homeHelperText"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:maxWidth="300dp"-->
+        <!--android:text="Home"-->
+        <!--android:layout_margin="32dp"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textColor="#e43" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        android:background="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="16sp"
+            android:textColor="#e43"/>
+
+        <TextView
+            android:id="@+id/tvUserBloodGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="16sp"
+            android:textColor="#e43"/>
+
+        <TextView
+            android:id="@+id/tvUserConditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="16sp"
+            android:textColor="#e43"/>
+
+        <TextView
+            android:id="@+id/tvUserMedicaitons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="16sp"
+            android:textColor="#e43"/>
+
+        <TextView
+            android:id="@+id/tvUserAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="16sp"
+            android:textColor="#e43"/>
+
+    </LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabCalibrate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="300dp"
-        android:text="Home"
-        android:layout_centerInParent="true"
-        android:textSize="20sp"
-        android:textColor="#e43" />
+        android:layout_above="@id/fabFalseAlarm"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/compass_icon"
+        app:backgroundTint="@color/colorAccent"
+        app:rippleColor="#FBC02D" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabFalseAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bell_icon"
+        app:backgroundTint="@color/colorAccent"
+        app:rippleColor="#FBC02D" />
+
 
 </RelativeLayout>
