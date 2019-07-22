@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="comayushs08.github.argus.TabContacts">
+
+
+    <TextView
+        android:id="@+id/helperText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/helperText"
+        android:layout_centerInParent="true"
+        android:layout_margin="16dp"
+        android:textAlignment="center"
+        android:textColor="#e43"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/add_user_icon"
+        app:backgroundTint="@color/colorAccent"
+        app:rippleColor="#FBC02D" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabSms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fabAdd"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sms_icon"
+        app:backgroundTint="@color/colorAccent"
+        app:rippleColor="#FBC02D" />
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listView"></ListView>
+
+</RelativeLayout>
