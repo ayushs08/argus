@@ -18,7 +18,7 @@ public class UserDetails extends AppCompatActivity {
     EditText etUserName, etUserBloodGroup, etUserAddress, etUserConditions, etUserMedication;
     private String userName, userBloodGroup, userAddress, userConditions, userMedication;
 
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences, sharedPreferences2;
     SharedPreferences.Editor editor;
     boolean firstTime;
 
@@ -28,26 +28,30 @@ public class UserDetails extends AppCompatActivity {
         setContentView(R.layout.activity_user_details);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPreferences2 = getApplicationContext().getSharedPreferences("MyPref", 0);
+
         firstTime = sharedPreferences.getBoolean("firstTime", true);
 
-        if(firstTime) {
+        if (firstTime) {
             etUserName = findViewById(R.id.userName);
             etUserBloodGroup = findViewById(R.id.userBloodGroup);
             etUserConditions = findViewById(R.id.userConditions);
             etUserMedication = findViewById(R.id.userMedications);
             etUserAddress = findViewById(R.id.userAddress);
 
-            userName = etUserName.getText().toString();
-            userBloodGroup = etUserBloodGroup.getText().toString();
-            userConditions = etUserConditions.getText().toString();
-            userMedication = etUserMedication.getText().toString();
-            userAddress = etUserAddress.getText().toString();
 
             fabStoreDetails = findViewById(R.id.fabStoreDetails);
 
             fabStoreDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    userName = etUserName.getText().toString();
+                    userBloodGroup = etUserBloodGroup.getText().toString();
+                    userConditions = etUserConditions.getText().toString();
+                    userMedication = etUserMedication.getText().toString();
+                    userAddress = etUserAddress.getText().toString();
+
                     editor = sharedPreferences.edit();
                     editor.putString("userName", userName);
                     editor.putString("userBloodGroup", userBloodGroup);
@@ -55,7 +59,7 @@ public class UserDetails extends AppCompatActivity {
                     editor.putString("userMedication", userMedication);
                     editor.putString("userAddress", userAddress);
                     editor.putBoolean("firstTime", false);
-                    editor.commit();
+                    editor.apply();
 
 
                     Toast.makeText(UserDetails.this, "Saved", Toast.LENGTH_SHORT).show();
